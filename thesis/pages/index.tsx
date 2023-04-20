@@ -1,9 +1,12 @@
-import React from "react"
+import React from 'react'
+import Sidebar from '../components/Sidebar'
 
-export default function Home() {
+function index() {
   return (
-    <main>
-      hello
+    <main className='bg-black min-h-screen'>
+      <Sidebar/>
     </main>
   )
 }
+
+export default index
