@@ -13,7 +13,7 @@ import {
     EllipsisHorizontalIcon,
 
 } from "@heroicons/react/24/outline";
-import { useSession } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 
 function Sidebar() {
     const { data: session } = useSession();
@@ -35,7 +35,7 @@ function Sidebar() {
             <button className="hidden xl:inline ml-auto bg-[#ff7f11] text-white rounded-full w-56 h-[52px] text-lg font-bold shadow-md hover:bg-[#aa7242]">
                 Post Designs
             </button>
-            <div className='text-[#d9d9d9] flex items-center justify-center mt-auto hoverAnimation xl:ml-auto'>
+            <div className='text-[#d9d9d9] flex items-center justify-center mt-auto hoverAnimation xl:ml-auto' onClick={signOut}>
                 <img
                     src={session.user.image}
                     alt=""
