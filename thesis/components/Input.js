@@ -30,6 +30,7 @@ function Input() {
 
     //Yo chai selected file display garnalai use garya function
     const addImageToPost = (e) => {
+
         const reader = new FileReader();
         if (e.target.files[0]) {
             reader.readAsDataURL(e.target.files[0]);
@@ -37,7 +38,8 @@ function Input() {
 
         reader.onload = (readerEvent) => {
             setSelectedFile(readerEvent.target.result);
-        };
+        }
+
     };
 
     const addEmoji = (e) => {
