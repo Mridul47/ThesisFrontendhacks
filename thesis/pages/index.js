@@ -5,16 +5,17 @@ import { getProviders, getSession, useSession } from "next-auth/react";
 import Login from '../components/Login'
 
 
-export default function index({trendingResults, followResults, providers}) {
+export default function index({ trendingResults, followResults, providers }) {
   //session ko kaam k vanda login nagari homepage nadehauna lai ho
   const { data: session } = useSession();
 
   // ra yaha ko le tei edi login chaina vane login ko page dekhaune logic ho
-  if(!session) return <Login providers={providers}/>;
+  if (!session) return <Login providers={providers} />;
   return (
     <main className='bg-black min-h-screen'>
-      <Sidebar/>
-      <Feed/>
+      <Sidebar />
+      <Feed />
+      {session.user.name}
     </main>
   )
 }
