@@ -7,6 +7,15 @@ import { XMarkIcon } from "@heroicons/react/24/solid";
 import { PhotoIcon } from "@heroicons/react/24/outline";
 import React, { useRef, useState } from "react";
 import EmojiPicker from "emoji-picker-react";
+import { db, storage } from "../firebase";
+import {
+    addDoc,
+    collection,
+    doc,
+    serverTimestamp,
+    updateDoc,
+} from "@firebase/firestore";
+import { getDownloadURL, ref, uploadString } from "@firebase/storage";
 
 function Input() {
     const [input, setInput] = useState();
@@ -14,8 +23,10 @@ function Input() {
     const [selectedFile, setSelectedFile] = useState(null);
     //yo filepicker ko onclick chai photo upload garnalai ho ra suruma null rakhya karan user le click nagarunjel kei nahuna ho
     const filePickerRef = useRef(null);
+    const [loading, setLoading] = useState(false);
     //emoji show garnalai ra initially click nagarikana kei dekhaunu hunna so null
     const [showEmojis, setShowEmojis] = useState(false);
+
 
     //Yo chai selected file display garnalai use garya function
     const addImageToPost = (e) => {
@@ -35,6 +46,37 @@ function Input() {
         sym.forEach((el) => codesArray.push("0x" + el));
         let emoji = String.fromCodePoint(...codesArray);
         setInput(input + emoji);
+    };
+
+    const sendPost = async () => {
+        if (loading) return;
+        setLoading(true);
+
+        const docRef = await addDoc(collection(db, "posts"), {
+            // id: session.user.uid,
+            // username: session.user.name,
+            // userImg: session.user.image,
+            // tag: session.user.tag,
+            text: input,
+            timestamp: serverTimestamp(),
+        });
+
+        const imageRef = ref(storage, `posts/${docRefef.id}/image`);
+
+        if (selectedFile) {
+            await uploadString(imageRef, selectedFile, "data_url").then(async () => {
+                const downloadURL = await getDownloadURL(imageRef)
+                await updateDoc(doc(db, "posts", docRef.id), {
+                    image: downloadURL,
+                });
+            });
+        }
+
+        // if else use vako ho yo tala chai posts sab upload vayechi sab chiz arko palta ko lage blank dekhaera fere milos garnalai ho
+        setLoading(false);
+        setInput("");
+        setSelectedFile(null);
+        setShowEmojis(false);
     };
 
 
@@ -111,10 +153,10 @@ function Input() {
                         )}
                     </div>
                     <button
-                        className="bg-[#ff7f11] text-white rounded-full px-4 py-1.5 font-bold shadow-md hover:bg-[#1a8cd8] disabled:hover:bg-[#1d9bf0] disabled:opacity-50 disabled:cursor-default"
+                        className="bg-[#ff7f11] text-white rounded-full px-4 py-1.5 font-bold shadow-md hover:bg-[#aa7242] disabled:hover:bg-[#1d9bf0] disabled:opacity-50 disabled:cursor-default"
                         //yo tala ko code chai post khali huda button lai fikka parne ra kei halisakechi button glowup garnalai
                         disabled={!input && !selectedFile}
-                        // onClick={sendPost}
+                    // onClick={sendPost}
                     >
                         Post Designs
                     </button>

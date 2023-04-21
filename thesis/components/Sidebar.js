@@ -30,7 +30,7 @@ function Sidebar() {
                 <SidebarLink text="Profile" Icon={UserCircleIcon} />
                 <SidebarLink text="More" Icon={EllipsisVerticalIcon} />
             </div>
-            <button className="hidden xl:inline ml-auto bg-[#ff7f11] text-white rounded-full w-56 h-[52px] text-lg font-bold shadow-md hover:bg-[#1a8cd8]">
+            <button className="hidden xl:inline ml-auto bg-[#ff7f11] text-white rounded-full w-56 h-[52px] text-lg font-bold shadow-md hover:bg-[#aa7242]">
                 Post Designs
             </button>
             <div className='text-[#d9d9d9] flex items-center justify-center mt-auto hoverAnimation xl:ml-auto'>
