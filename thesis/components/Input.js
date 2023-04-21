@@ -60,10 +60,13 @@ function Input() {
             text: input,
             timestamp: serverTimestamp(),
         });
-
+        //image reference eta creat garya
         const imageRef = ref(storage, `posts/${docRefef.id}/image`);
 
         if (selectedFile) {
+            //object ko location ma string upload garna use gareko
+            //esle chai kunai selected file cha vane teslai clean sort of url ma convert garya
+            //jun chai firebase le deko cha
             await uploadString(imageRef, selectedFile, "data_url").then(async () => {
                 const downloadURL = await getDownloadURL(imageRef)
                 await updateDoc(doc(db, "posts", docRef.id), {
