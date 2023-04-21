@@ -24,14 +24,14 @@ function Sidebar() {
                 <SidebarLink text="Home" Icon={HomeIcon} active />
                 <SidebarLink text="Explore" Icon={HashtagIcon} />
                 <SidebarLink text="Notifications" Icon={BellAlertIcon} />
-                <SidebarLink text="Messages" Icon={InboxIcon} />
-                <SidebarLink text="Bookmarks" Icon={BookmarkIcon} />
+                {/* <SidebarLink text="Messages" Icon={InboxIcon} /> */}
+                {/* <SidebarLink text="Bookmarks" Icon={BookmarkIcon} /> */}
                 <SidebarLink text="Lists" Icon={ListBulletIcon} />
                 <SidebarLink text="Profile" Icon={UserCircleIcon} />
                 <SidebarLink text="More" Icon={EllipsisVerticalIcon} />
             </div>
-            <button className="hidden xl:inline ml-auto bg-[#1d9bf0] text-white rounded-full w-56 h-[52px] text-lg font-bold shadow-md hover:bg-[#1a8cd8]">
-                Tweet
+            <button className="hidden xl:inline ml-auto bg-[#ff7f11] text-white rounded-full w-56 h-[52px] text-lg font-bold shadow-md hover:bg-[#1a8cd8]">
+                Post Designs
             </button>
             <div className='text-[#d9d9d9] flex items-center justify-center mt-auto hoverAnimation xl:ml-auto'>
                 <img
