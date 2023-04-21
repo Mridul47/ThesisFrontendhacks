@@ -27,10 +27,8 @@ function Input() {
     //emoji show garnalai ra initially click nagarikana kei dekhaunu hunna so null
     const [showEmojis, setShowEmojis] = useState(false);
 
-
     //Yo chai selected file display garnalai use garya function
     const addImageToPost = (e) => {
-
         const reader = new FileReader();
         if (e.target.files[0]) {
             reader.readAsDataURL(e.target.files[0]);
@@ -38,8 +36,7 @@ function Input() {
 
         reader.onload = (readerEvent) => {
             setSelectedFile(readerEvent.target.result);
-        }
-
+        };
     };
 
     const addEmoji = (e) => {
@@ -63,14 +60,14 @@ function Input() {
             timestamp: serverTimestamp(),
         });
         //image reference eta creat garya
-        const imageRef = ref(storage, `posts/${docRefef.id}/image`);
+        const imageRef = ref(storage, `posts/${docRef.id}/image`);
 
         if (selectedFile) {
             //object ko location ma string upload garna use gareko
             //esle chai kunai selected file cha vane teslai clean sort of url ma convert garya
             //jun chai firebase le deko cha
             await uploadString(imageRef, selectedFile, "data_url").then(async () => {
-                const downloadURL = await getDownloadURL(imageRef)
+                const downloadURL = await getDownloadURL(imageRef);
                 await updateDoc(doc(db, "posts", docRef.id), {
                     image: downloadURL,
                 });
@@ -84,11 +81,10 @@ function Input() {
         setShowEmojis(false);
     };
 
-
-
     return (
         <div
-            className={`border-b border-gray-700 p-3 flex space-x-3 overflow-y-scroll scrollbar-hide`}
+            className={`border-b border-gray-700 p-3 flex space-x-3 overflow-y-scroll scrollbar-hide ${loading && "opacity-60"
+                }`}
         >
             <img
                 src="https://pbs.twimg.com/profile_images/1634262876423852035/VG4YRyVr_400x400.jpg"
@@ -121,51 +117,53 @@ function Input() {
                         </div>
                     )}
                 </div>
-                <div className="flex items-center justify-between pt-2.5">
-                    <div className="flex items-center">
-                        <div
-                            className="icon"
-                            //yo filepicker ko onclick chai photo upload garnalai ho
-                            onClick={() => filePickerRef.current.click()}
-                        >
-                            <PhotoIcon className="text-[#ff7f11] h-[22px]" />
-                            <input
-                                type="file"
-                                ref={filePickerRef}
-                                hidden
-                                onChange={addImageToPost}
-                            />
-                        </div>
+                {!loading && (
+                    <div className="flex items-center justify-between pt-2.5">
+                        <div className="flex items-center">
+                            <div
+                                className="icon"
+                                //yo filepicker ko onclick chai photo upload garnalai ho
+                                onClick={() => filePickerRef.current.click()}
+                            >
+                                <PhotoIcon className="text-[#ff7f11] h-[22px]" />
+                                <input
+                                    type="file"
+                                    ref={filePickerRef}
+                                    hidden
+                                    onChange={addImageToPost}
+                                />
+                            </div>
 
-                        <div className="icon rotate-90">
-                            <ChartBarIcon className="text-[#ff7f11] h-[22px]" />
-                        </div>
+                            <div className="icon rotate-90">
+                                <ChartBarIcon className="text-[#ff7f11] h-[22px]" />
+                            </div>
 
-                        <div className="icon" onClick={() => setShowEmojis(!showEmojis)}>
-                            <FaceSmileIcon className="text-[#ff7f11] h-[22px]" />
-                        </div>
+                            <div className="icon" onClick={() => setShowEmojis(!showEmojis)}>
+                                <FaceSmileIcon className="text-[#ff7f11] h-[22px]" />
+                            </div>
 
-                        {/* <div className="icon">
+                            {/* <div className="icon">
                             <CalendarIcon className="text-[#ff7f11] h-[22px]" />
                         </div> */}
 
-                        {showEmojis && (
-                            <EmojiPicker
-                                emojiStyle="facebook"
-                                onEmojiClick={addEmoji}
-                                theme="dark"
-                            />
-                        )}
+                            {showEmojis && (
+                                <EmojiPicker
+                                    emojiStyle="facebook"
+                                    onEmojiClick={addEmoji}
+                                    theme="dark"
+                                />
+                            )}
+                        </div>
+                        <button
+                            className="bg-[#ff7f11] text-white rounded-full px-4 py-1.5 font-bold shadow-md hover:bg-[#aa7242] disabled:hover:bg-[#1d9bf0] disabled:opacity-50 disabled:cursor-default"
+                            //yo tala ko code chai post khali huda button lai fikka parne ra kei halisakechi button glowup garnalai
+                            disabled={!input && !selectedFile}
+                            onClick={sendPost}
+                        >
+                            Post Designs
+                        </button>
                     </div>
-                    <button
-                        className="bg-[#ff7f11] text-white rounded-full px-4 py-1.5 font-bold shadow-md hover:bg-[#aa7242] disabled:hover:bg-[#1d9bf0] disabled:opacity-50 disabled:cursor-default"
-                        //yo tala ko code chai post khali huda button lai fikka parne ra kei halisakechi button glowup garnalai
-                        disabled={!input && !selectedFile}
-                    // onClick={sendPost}
-                    >
-                        Post Designs
-                    </button>
-                </div>
+                )}
             </div>
         </div>
     );
