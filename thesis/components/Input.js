@@ -16,6 +16,7 @@ import {
     updateDoc,
 } from "@firebase/firestore";
 import { getDownloadURL, ref, uploadString } from "@firebase/storage";
+import { useSession } from "next-auth/react";
 
 function Input() {
     const [input, setInput] = useState();
@@ -26,6 +27,7 @@ function Input() {
     const [loading, setLoading] = useState(false);
     //emoji show garnalai ra initially click nagarikana kei dekhaunu hunna so null
     const [showEmojis, setShowEmojis] = useState(false);
+    const { data: session } = useSession();
 
     //Yo chai selected file display garnalai use garya function
     const addImageToPost = (e) => {
@@ -87,7 +89,7 @@ function Input() {
                 }`}
         >
             <img
-                src="https://pbs.twimg.com/profile_images/1634262876423852035/VG4YRyVr_400x400.jpg"
+                src={session.user.image}
                 alt=""
                 className="h-11 w-11 rounded-full cursor-pointer"
             />
