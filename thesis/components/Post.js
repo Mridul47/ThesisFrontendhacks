@@ -47,6 +47,16 @@ function Post({ id, post, postPage }) {
                         <EllipsisHorizontalIcon className="h-5 text-[#6e767d] group-hover:text-[#ff7f11]" />
                     </div>
                 </div>
+                {postPage && (
+                    <p className="text-[#d9d9d9] text-[15px] sm:text-base mt-0.5">
+                        {post?.text}
+                    </p>
+                )}
+                <img
+                    src={post?.image}
+                    alt=""
+                    className="rounded-2xl max-h-[700px] object-cover mr-2"
+                />
             </div>
         </div>
     );
