@@ -1,16 +1,17 @@
 import {
-  ChatBubbleLeftIcon,
   EllipsisHorizontalIcon,
 } from "@heroicons/react/24/solid";
 import React from "react";
 import { useSession } from "next-auth/react";
 import {
   ChartBarIcon,
+  ChatBubbleLeftRightIcon,
   ShareIcon,
   TrashIcon,
 } from "@heroicons/react/24/outline";
 
-// import Moment from "react-moment";
+import Moment from "react-moment";
+import { useRecoilState } from "recoil";
 
 function Post({ id, post, postPage }) {
   const { data: session } = useSession();
@@ -87,7 +88,7 @@ function Post({ id, post, postPage }) {
                         }}
                     >
                         <div className="icon group-hover:bg-[#1d9bf0] group-hover:bg-opacity-10">
-                            <ChatBubbleLeftIcon className="h-5 group-hover:text-[#1d9bf0]" />
+                            <ChatBubbleLeftRightIcon className="h-5 group-hover:text-[#1d9bf0]" />
                         </div>
                         {comments.length > 0 && (
                             <span className="group-hover:text-[#1d9bf0] text-sm">
