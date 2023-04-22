@@ -30,6 +30,7 @@ function Post({ id, post, postPage }) {
 //setLiked initially useState ko empty array cha as shown in line 27 so teslai initialize garauna yo tala ko logic use garya
     useEffect(
         () =>
+        //esma chai firebase ma gayera collection vitra post ko likes lina gako
             onSnapshot(collection(db, "posts", id, "likes"), (snapshot) =>
                 setLikes(snapshot.docs)
             ),
