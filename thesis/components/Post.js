@@ -1,7 +1,5 @@
-import {
-  EllipsisHorizontalIcon,
-} from "@heroicons/react/24/solid";
-import React from "react";
+import { EllipsisHorizontalIcon } from "@heroicons/react/24/solid";
+import React, { useState } from "react";
 import { useSession } from "next-auth/react";
 import {
   ChartBarIcon,
@@ -9,14 +7,23 @@ import {
   ShareIcon,
   TrashIcon,
 } from "@heroicons/react/24/outline";
-
+import { modalState, postIdState } from "../atoms/modalAtom";
 import Moment from "react-moment";
 import { useRecoilState } from "recoil";
+import { useRouter } from "next/router";
+import { db } from "../firebase";
+import { deleteDoc, doc } from "firebase/firestore";
+
 
 function Post({ id, post, postPage }) {
   const { data: session } = useSession();
+  const [isOpen, setIsOpen] = useRecoilState(modalState);
+  const [postId, setPostId] = useRecoilState(postIdState);
+  const [comments, setComments] = useState([]);
+  const router = useRouter()
   return (
-    <div className="p-3 flex cursor-pointer border-b border-gray-700">
+    <div className="p-3 flex cursor-pointer border-b border-gray-700"
+    onClick={()=> router.push(`/${id}`)}>
       {!postPage && (
         <img
           src={post?.userImg}
@@ -79,23 +86,24 @@ function Post({ id, post, postPage }) {
             postPage && "mx-auto"
           }`}
         >
-          {/* <div
-                        className="flex items-center space-x-1 group"
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            setPostId(id);
-                            setIsOpen(true);
-                        }}
-                    >
-                        <div className="icon group-hover:bg-[#1d9bf0] group-hover:bg-opacity-10">
-                            <ChatBubbleLeftRightIcon className="h-5 group-hover:text-[#1d9bf0]" />
-                        </div>
-                        {comments.length > 0 && (
-                            <span className="group-hover:text-[#1d9bf0] text-sm">
-                                {comments.length}
-                            </span>
-                        )}
-                    </div> */}
+          <div
+            className="flex items-center space-x-1 group"
+            onClick={(e) => {
+              e.stopPropagation();
+              setPostId(id);
+              //setIsOpen vanya modalState ho ra true vaneko yo open cha indicate garya
+              setIsOpen(true);
+            }}
+          >
+            <div className="icon group-hover:bg-[#1d9bf0] group-hover:bg-opacity-10">
+              <ChatBubbleLeftRightIcon className="h-5 group-hover:text-[#1d9bf0]" />
+            </div>
+            {comments.length > 0 && (
+              <span className="group-hover:text-[#1d9bf0] text-sm">
+                {comments.length}
+              </span>
+            )}
+          </div>
 
           {session.user.uid === post?.id ? (
             <div
