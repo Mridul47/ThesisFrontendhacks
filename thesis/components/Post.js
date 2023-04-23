@@ -14,8 +14,7 @@ import { useRecoilState } from "recoil";
 import { useRouter } from "next/router";
 import { db } from "../firebase";
 import { setDoc, deleteDoc, doc } from "firebase/firestore";
-import { onSnapshot, collection } from "@firebase/firestore"
-
+import { onSnapshot, collection, query, orderBy } from "@firebase/firestore";
 
 function Post({ id, post, postPage }) {
     const { data: session } = useSession();
@@ -47,7 +46,7 @@ function Post({ id, post, postPage }) {
     );
 
     const likePost = async () => {
-        //edi already liked cha vane deletedocument hos i.e. unlike hos arko palta daabda 
+        //edi already liked cha vane deletedocument hos i.e. unlike hos arko palta daabda
         if (liked) {
             await deleteDoc(doc(db, "posts", id, "likes", session.user.uid));
         } else {
@@ -61,17 +60,19 @@ function Post({ id, post, postPage }) {
     useEffect(
         () =>
             onSnapshot(
-                //quering the post from database  in descending order
-                query(collection(db, "posts", id, "comments"), orderBy("timestamp", "desc")),
-                (snapshot) =>
-                    setComments(snapshot.docs)
-
+                query(
+                    collection(db, "posts", id, "comments"),
+                    orderBy("timestamp", "desc")
+                ),
+                (snapshot) => setComments(snapshot.docs)
             ),
         [db, id]
     );
     return (
-        <div className="p-3 flex cursor-pointer border-b border-gray-700"
-            onClick={() => router.push(`/${id}`)}>
+        <div
+            className="p-3 flex cursor-pointer border-b border-gray-700"
+            onClick={() => router.push(`/${id}`)}
+        >
             {!postPage && (
                 <img
                     src={post?.userImg}
