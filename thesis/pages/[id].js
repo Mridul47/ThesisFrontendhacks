@@ -17,6 +17,7 @@ import Post from "../components/Post";
 import { db } from "../firebase";
 import Head from "next/head";
 import { ArrowLeftIcon } from "@heroicons/react/24/solid";
+import Comment from "../components/Comment";
 
 function PostPage({ trendingResults, followResults, providers }) {
     const { data: session } = useSession();
