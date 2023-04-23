@@ -37,7 +37,7 @@ export default function index({ trendingResults, followResults, providers }) {
   )
 }
 export async function getServerSideProps(context) {
-  const trendingResults = await fetch("https://api.twitter.com/1.1/trends/available.json").then(
+  const trendingResults = await fetch("https://www.jsonkeeper.com/b/AYW9").then(
     (res) => res.json()
   );
   const followResults = await fetch("https://jsonplaceholder.typicode.com/users").then(
