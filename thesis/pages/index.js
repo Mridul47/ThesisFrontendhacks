@@ -7,6 +7,7 @@ import Modal from '../components/Modal'
 import { useRecoilState } from 'recoil';
 import { modalState } from '@/atoms/modalAtom';
 import Head from 'next/head';
+import Widgets from '../components/Widgets'
 
 
 export default function index({ trendingResults, followResults, providers }) {
@@ -22,11 +23,13 @@ export default function index({ trendingResults, followResults, providers }) {
         <title>Home / Twitter</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className='bg-black min-h-screen'>
+      <main className='bg-black min-h-screen flex max-w-[1500px] mx-auto'>
         <Sidebar />
         <Feed />
+        <Widgets />
         {/* {session.user.name} */}
         {isOpen && <Modal />}
+
       </main>
     </div>
 
