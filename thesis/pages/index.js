@@ -27,7 +27,7 @@ export default function index({ trendingResults, followResults, providers }) {
         <Sidebar />
         <Feed />
         <Widgets trendingResults={trendingResults}
-          followResults={followResults}/>
+          />
         {/* {session.user.name} */}
         {isOpen && <Modal />}
 
@@ -37,7 +37,7 @@ export default function index({ trendingResults, followResults, providers }) {
   )
 }
 export async function getServerSideProps(context) {
-  const trendingResults = await fetch("https://jsonplaceholder.typicode.com/posts").then(
+  const trendingResults = await fetch("https://api.twitter.com/1.1/trends/available.json").then(
     (res) => res.json()
   );
   const followResults = await fetch("https://jsonplaceholder.typicode.com/users").then(
