@@ -13,8 +13,8 @@ import Moment from "react-moment";
 import { useRecoilState } from "recoil";
 import { useRouter } from "next/router";
 import { db } from "../firebase";
-import { setDoc,deleteDoc, doc } from "firebase/firestore";
-import {onSnapshot, collection} from "@firebase/firestore"
+import { setDoc, deleteDoc, doc } from "firebase/firestore";
+import { onSnapshot, collection } from "@firebase/firestore"
 
 
 function Post({ id, post, postPage }) {
@@ -25,12 +25,12 @@ function Post({ id, post, postPage }) {
     const router = useRouter();
     const [liked, setLiked] = useState(false);
     const [likes, setLikes] = useState([]);
-//Like ko part ko logic
+    //Like ko part ko logic
 
-//setLiked initially useState ko empty array cha as shown in line 27 so teslai initialize garauna yo tala ko logic use garya
+    //setLiked initially useState ko empty array cha as shown in line 27 so teslai initialize garauna yo tala ko logic use garya
     useEffect(
         () =>
-        //esma chai firebase ma gayera collection vitra post ko likes lina gako
+            //esma chai firebase ma gayera collection vitra post ko likes lina gako
             onSnapshot(collection(db, "posts", id, "likes"), (snapshot) =>
                 setLikes(snapshot.docs)
             ),
@@ -58,6 +58,17 @@ function Post({ id, post, postPage }) {
     };
 
     //comment ko part ko logic
+    useEffect(
+        () =>
+            onSnapshot(
+                //quering the post from database  in descending order
+                query(collection(db, "posts", id, "comments"), orderBy("timestamp", "desc")),
+                (snapshot) =>
+                    setComments(snapshot.docs)
+
+            ),
+        [db, id]
+    );
     return (
         <div className="p-3 flex cursor-pointer border-b border-gray-700"
             onClick={() => router.push(`/${id}`)}>
