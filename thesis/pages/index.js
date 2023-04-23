@@ -6,6 +6,7 @@ import Login from '../components/Login'
 import Modal from '../components/Modal'
 import { useRecoilState } from 'recoil';
 import { modalState } from '@/atoms/modalAtom';
+import Head from 'next/head';
 
 
 export default function index({ trendingResults, followResults, providers }) {
@@ -16,12 +17,19 @@ export default function index({ trendingResults, followResults, providers }) {
   // ra yaha ko le tei edi login chaina vane login ko page dekhaune logic ho
   if (!session) return <Login providers={providers} />;
   return (
-    <main className='bg-black min-h-screen'>
-      <Sidebar />
-      <Feed />
-      {/* {session.user.name} */}
-      {isOpen && <Modal/>}
-    </main>
+    <div>
+      <Head>
+        <title>Home / Twitter</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <main className='bg-black min-h-screen'>
+        <Sidebar />
+        <Feed />
+        {/* {session.user.name} */}
+        {isOpen && <Modal />}
+      </main>
+    </div>
+
   )
 }
 export async function getServerSideProps(context) {
